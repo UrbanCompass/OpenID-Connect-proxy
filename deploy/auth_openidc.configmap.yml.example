@@ -30,6 +30,8 @@ data:
         AuthType openid-connect
         Require valid-user
         RequestHeader set Authorization "Bearer %{OIDC_id_token}e"
-        ProxyPass < proxy destination >
+        # What to be proxied. For example:
+        #ProxyPass https://kubernetes-dashboard.kube-system/
+        ProxyPass < proxy destination >        
       </Location>
     </VirtualHost>

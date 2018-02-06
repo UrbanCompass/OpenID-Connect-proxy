@@ -32,7 +32,6 @@ data:
         RequestHeader set Authorization "Bearer %{OIDC_id_token}e"
         # What to be proxied. For example:
         #ProxyPass https://kubernetes-dashboard.kube-system/
-        ProxyPass < proxy destination >
-        
+        ProxyPass < proxy destination >        
       </Location>
     </VirtualHost>

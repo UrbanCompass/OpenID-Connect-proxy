@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-openidc-conf
+data:
+  auth_openidc.conf: |
+    <VirtualHost _default_:80>
+
+      SSLProxyEngine On
+      SSLProxyCheckPeerCN off
+      SSLProxyCheckPeerExpire off
+
+      # for Google Accounts, use https://accounts.google.com/.well-known/openid-configuration
+      OIDCProviderMetadataURL <Provider Metadata URL >
+      OIDCClientID < Client ID>
+      OIDCClientSecret < Client Secret >
+      OIDCRedirectURI < Redirect URI >
+      OIDCCryptoPassphrase < Randomized passphrase >
+      OIDCScrubRequestHeaders "Off"
+
+      OIDCPassClaimsAs both
+
+      OIDCRemoteUserClaim email
+      OIDCScope "openid email"
+
+      OIDCPassIDTokenAs serialized
+      OIDCResponseType id_token
+
+      <Location "/">
+        AuthType openid-connect
+        Require valid-user
+        RequestHeader set Authorization "Bearer %{OIDC_id_token}e"
+        ProxyPass < proxy destination >
+      </Location>
+    </VirtualHost>

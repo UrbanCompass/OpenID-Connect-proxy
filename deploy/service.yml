@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: openidc-apache
+spec:
+  selector:
+    app: openidc-apache
+  ports:
+  - protocol: TCP
+    port: 80

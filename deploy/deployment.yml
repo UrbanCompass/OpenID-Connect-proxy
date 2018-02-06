@@ -1,0 +1,30 @@
+apiVersion: 'extensions/v1beta1'
+kind: Deployment
+metadata:
+  namespace: openidc
+  name: openidc-apache
+  labels:
+    app: openidc-apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openidc-apache
+  template:
+    metadata:
+      labels:
+        app: openidc-apache
+    spec:
+      containers:
+      - name: openidc-apache
+        image: quay.io/compassquay/openid-connect-proxy
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/httpd/conf.d.extras
+      volumes:
+        - name: config-volume
+          configMap:
+            name: auth-openidc-conf
